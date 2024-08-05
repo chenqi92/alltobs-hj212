@@ -15,7 +15,7 @@
 <!-- tab maven -->
 ```xml
 <dependency>
-  <groupId>cn.allbs</groupId>
+  <groupId>com.alltobs</groupId>
   <artifactId>allbs-hj212</artifactId>
   <version>1.1.8</version>
 </dependency>
@@ -31,7 +31,7 @@
 <!-- tab Gradle -->
 
 ```
-implementation 'cn.allbs:allbs-hj212:1.1.8'
+implementation 'com.alltobs:allbs-hj212:1.1.8'
 ```
 
 <!-- endtab -->
@@ -39,7 +39,7 @@ implementation 'cn.allbs:allbs-hj212:1.1.8'
 <!-- tab Kotlin -->
 
 ```
-implementation("cn.allbs:allbs-hj212:1.1.8")
+implementation("com.alltobs:allbs-hj212:1.1.8")
 ```
 <!-- endtab -->
 {% endtabs %}
