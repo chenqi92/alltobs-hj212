@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 /**
  * 功能:
  *
- * @作者 chenQi
+ * @author chenQi
  */
 public class ReaderStream<ParentMatch extends ReaderMatch> {
 

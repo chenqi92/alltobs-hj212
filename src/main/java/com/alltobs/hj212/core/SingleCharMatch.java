@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 /**
  * 功能:
  *
- * @作者 chenQi
+ * @author chenQi
  */
 public class SingleCharMatch<ParentStream extends ReaderStream> implements ReaderMatch<SingleCharMatch<ParentStream>, ParentStream, Character> {
 
