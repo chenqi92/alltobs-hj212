@@ -3,7 +3,7 @@ package com.alltobs.hj212.validator.clazz;
 
 import com.alltobs.hj212.model.verify.T212Map;
 
-import javax.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidator;
 import java.lang.annotation.Annotation;
 import java.util.Optional;
 import java.util.function.Predicate;

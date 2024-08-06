@@ -11,7 +11,7 @@ import com.alltobs.hj212.ser.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.validation.Validator;
+import jakarta.validation.Validator;
 import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;

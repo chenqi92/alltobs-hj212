@@ -9,8 +9,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.json.bind.annotation.JsonbProperty;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.Max;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.Max;
 import java.math.BigDecimal;
 
 /**

@@ -4,7 +4,7 @@ import com.alltobs.hj212.model.verify.T212Map;
 import com.alltobs.hj212.validator.field.N;
 import com.alltobs.hj212.validator.field.NValidator;
 
-import javax.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidator;
 
 /**
  * @author ChenQi

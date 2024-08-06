@@ -14,7 +14,7 @@ import com.alltobs.hj212.ser.PackLevelSerializer;
 import com.alltobs.hj212.ser.T212Serializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.validation.Validator;
+import jakarta.validation.Validator;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.Collection;

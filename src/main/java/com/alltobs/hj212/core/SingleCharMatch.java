@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 /**
  * 功能:
  *
- * @author chenQi
+ * @作者 chenQi
  */
 public class SingleCharMatch<ParentStream extends ReaderStream> implements ReaderMatch<SingleCharMatch<ParentStream>, ParentStream, Character> {
 
@@ -26,6 +26,9 @@ public class SingleCharMatch<ParentStream extends ReaderStream> implements Reade
     public SingleCharMatch(ParentStream parentStream) {
         this.parentStream = parentStream;
         this.reader = parentStream.reader();
+        if (this.reader == null) {
+            throw new IllegalArgumentException("ParentStream.reader() returned null. PushbackReader must be initialized.");
+        }
         this.map = new LinkedHashMap<>();
         MapEntryStepGenerator.Builder<Predicate<Character>, SupplierWithThrowable<Optional<Object>, IOException>> builder = MapEntryStepGenerator.builder();
         this.generator = builder.consumer((k, v) -> map.put(k, v))
@@ -116,6 +119,7 @@ public class SingleCharMatch<ParentStream extends ReaderStream> implements Reade
 
     @Override
     public Optional<Character> match() throws IOException {
+        ensureReaderInitialized();
         int i = reader.read();
         Character character = (char) i;
 
@@ -129,13 +133,14 @@ public class SingleCharMatch<ParentStream extends ReaderStream> implements Reade
             //必须运行成功才不会回滚
             return Optional.of(character);
         }
-//        if(r.isPresent()){
-//            r.get().get();
-//            //TODO 必须运行成功才不会回滚
-//            return Optional.of(character);
-//        }
         reader.unread(i);
         return Optional.empty();
+    }
+
+    private void ensureReaderInitialized() {
+        if (reader == null) {
+            throw new IllegalStateException("PushbackReader is not initialized");
+        }
     }
 
     @Override

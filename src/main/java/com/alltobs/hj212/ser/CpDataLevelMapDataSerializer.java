@@ -10,7 +10,7 @@ import com.alltobs.hj212.format.T212Generator;
 import com.alltobs.hj212.format.VerifyUtil;
 import com.alltobs.hj212.model.verify.PacketElement;
 
-import javax.validation.Validator;
+import jakarta.validation.Validator;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;

@@ -6,9 +6,9 @@ import com.alltobs.hj212.deser.T212Deserializer;
 import com.alltobs.hj212.ser.T212Serializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import java.io.*;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

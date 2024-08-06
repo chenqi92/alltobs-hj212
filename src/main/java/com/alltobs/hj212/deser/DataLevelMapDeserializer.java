@@ -16,9 +16,9 @@ import com.alltobs.hj212.model.verify.groups.ModeGroup;
 import com.alltobs.hj212.model.verify.groups.VersionGroup;
 import com.alltobs.hj212.validator.clazz.FieldValidator;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.validation.groups.Default;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
+import jakarta.validation.groups.Default;
 import java.io.CharArrayReader;
 import java.io.IOException;
 import java.io.PushbackReader;

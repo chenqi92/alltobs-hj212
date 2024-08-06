@@ -6,9 +6,9 @@ import com.alltobs.hj212.validator.field.C;
 import com.alltobs.hj212.validator.field.N;
 import com.alltobs.hj212.validator.field.ValidDate;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * T212 Map

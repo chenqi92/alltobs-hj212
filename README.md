@@ -1,13 +1,12 @@
 ## 依赖jar包
-| 引入包             | 版本    |
-| ------------------ | ------- |
-| jdk                | 1.8     |
-| spring boot        | 2.7.2   |
-| allbs-common | 1.1.6 |
-| jackson-datatype-jsr310 | 2.13.3 |
-| jackson-databind | 2.13.3 |
-| spring-boot-starter-validation | 2.7.2 |
-| javax.json.bind-api | 1.0 |
+| 引入包             | 版本     |
+| ------------------ |--------|
+| jdk                | 17     |
+| spring boot        | 3.3.2  |
+| jackson-datatype-jsr310 | 2.17.2 |
+| jackson-databind | 2.17.2 |
+| spring-boot-starter-validation | 3.3.2  |
+| javax.json.bind-api | 1.0    |
 
 ## 使用
 ### 添加依赖
@@ -16,13 +15,13 @@
 ```xml
 <dependency>
   <groupId>com.alltobs</groupId>
-  <artifactId>allbs-hj212</artifactId>
-  <version>1.1.8</version>
+  <artifactId>alltobs-hj212</artifactId>
+  <version>1.0.0</version>
 </dependency>
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-validation</artifactId>
-    <version>2.7.2</version>
+    <version>3.3.2</version>
 </dependency>
 ```
 
@@ -31,7 +30,7 @@
 <!-- tab Gradle -->
 
 ```
-implementation 'com.alltobs:allbs-hj212:1.1.8'
+implementation 'com.alltobs:alltobs-hj212:1.0.0'
 ```
 
 <!-- endtab -->
@@ -39,7 +38,7 @@ implementation 'com.alltobs:allbs-hj212:1.1.8'
 <!-- tab Kotlin -->
 
 ```
-implementation("com.alltobs:allbs-hj212:1.1.8")
+implementation("com.alltobs:alltobs-hj212:1.0.0")
 ```
 <!-- endtab -->
 {% endtabs %}
@@ -50,7 +49,7 @@ implementation("com.alltobs:allbs-hj212:1.1.8")
 String h212 = "##0435QN=20210301111100112;ST=21;CN=2011;PW=123456;MN=ZLDSZ20210127;Flag=8;CP=&&DataTime=20210301111100;w01001-Rtd=8.33,w01001-Flag=N;w01009-Rtd=10.15,w01009-Flag=N;w01010-Rtd=9.7,w01010-Flag=N;w01014-Rtd=1425,w01014-Flag=N;w01003-Rtd=13.10,w01003-Flag=N;w21011-Rtd=0,w21011-Flag=N;w21001-Rtd=3.563168,w21001-Flag=N;w21003-Rtd=0.09055002,w21003-Flag=N;w01019-Rtd=4.102818,w01019-Flag=N;w01008-Rtd=0,w01008-Flag=N;w23002-Rtd=0,w23002-Flag=N&&7d00\r\n";
 T212Mapper mapper = new T212Mapper().enableDefaultParserFeatures().enableDefaultVerifyFeatures();
 Map<String, Object> resultMap = new HashMap<>(2);
-mapper.readMap(h212)
+mapper.readMap(h212);
 ```
 
 #### 结果

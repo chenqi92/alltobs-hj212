@@ -13,7 +13,7 @@ import com.alltobs.hj212.model.HjData;
 import com.alltobs.hj212.model.verify.PacketElement;
 import com.alltobs.hj212.model.verify.T212Map;
 
-import javax.validation.Validator;
+import jakarta.validation.Validator;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;

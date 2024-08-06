@@ -1,11 +1,10 @@
 package com.alltobs.hj212.validator.clazz;
 
-
 import com.alltobs.hj212.exception.T212FormatException;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintViolation;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.ConstraintViolation;
 import java.lang.annotation.Annotation;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -57,12 +56,12 @@ public abstract class FieldValidator<A extends Annotation, V, AF extends Annotat
 
     public abstract String getFieldMessage(AF value);
 
-    public static void create_format_exception(Set<? extends ConstraintViolation> constraintViolationSet, Object result) throws T212FormatException {
+    public static <T extends ConstraintViolation<?>> void create_format_exception(Set<T> constraintViolationSet, Object result) throws T212FormatException {
         Map<String, String> typePropertys = constraintViolationSet
                 .stream()
                 .collect(Collectors.groupingBy(
                         ConstraintViolation::getMessage,
-                        new Collector<ConstraintViolation, StringJoiner, String>() {
+                        new Collector<T, StringJoiner, String>() {
 
                             @Override
                             public Supplier<StringJoiner> supplier() {
@@ -70,7 +69,7 @@ public abstract class FieldValidator<A extends Annotation, V, AF extends Annotat
                             }
 
                             @Override
-                            public BiConsumer<StringJoiner, ConstraintViolation> accumulator() {
+                            public BiConsumer<StringJoiner, T> accumulator() {
                                 return (s, cv) -> s.add("'" + cv.getPropertyPath() + "'");
                             }
 
@@ -101,8 +100,8 @@ public abstract class FieldValidator<A extends Annotation, V, AF extends Annotat
                 .withResult(result);
     }
 
-    public static void create_format_exception2(Set<? extends ConstraintViolation> constraintViolationSet) throws T212FormatException {
-        Map<String, List<ConstraintViolation>> typeCVs = constraintViolationSet
+    public static <T extends ConstraintViolation<?>> void create_format_exception2(Set<T> constraintViolationSet) throws T212FormatException {
+        Map<String, List<T>> typeCVs = constraintViolationSet
                 .stream()
                 .collect(Collectors.groupingBy(
                         ConstraintViolation::getMessage,

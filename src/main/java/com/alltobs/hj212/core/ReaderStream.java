@@ -3,7 +3,6 @@ package com.alltobs.hj212.core;
 import java.io.IOException;
 import java.io.PushbackReader;
 import java.io.Reader;
-import java.lang.reflect.Field;
 import java.nio.CharBuffer;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -11,7 +10,7 @@ import java.util.function.Consumer;
 /**
  * 功能:
  *
- * @author chenQi
+ * @作者 chenQi
  */
 public class ReaderStream<ParentMatch extends ReaderMatch> {
 
@@ -52,22 +51,13 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
         use(reader, bufSize, parentMatch);
     }
 
-
     public ReaderStream<ParentMatch> use(PushbackReader reader) {
-        Field field = null;
-        try {
-            field = reader.getClass().getDeclaredField("buf");
-            field.setAccessible(true);
-            char[] chars = (char[]) field.get(reader);
-            if (chars.length < 1) {
-                this.reader = new PushbackReader(reader, this.bufSize);
-                return this;
-            }
-            this.bufSize = chars.length;
-            this.reader = reader;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (reader == null) {
+            throw new IllegalArgumentException("PushbackReader cannot be null");
         }
+        this.reader = reader;
+        // 默认缓冲区大小
+        this.bufSize = 1024;
         return this;
     }
 
@@ -76,6 +66,9 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
     }
 
     public ReaderStream<ParentMatch> use(Reader reader, int bufSize) {
+        if (reader == null) {
+            throw new IllegalArgumentException("Reader cannot be null");
+        }
         if (bufSize > 0) {
             this.bufSize = bufSize;
         }
@@ -84,6 +77,9 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
     }
 
     public ReaderStream<ParentMatch> use(PushbackReader reader, int bufSize, ParentMatch parentMatch) {
+        if (reader == null) {
+            throw new IllegalArgumentException("PushbackReader cannot be null");
+        }
         if (bufSize < 1) {
             this.reader = new PushbackReader(reader, this.bufSize);
             this.parentMatch = parentMatch;
@@ -96,6 +92,9 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
     }
 
     public ReaderStream<ParentMatch> use(Reader reader, int bufSize, ParentMatch parentMatch) {
+        if (reader == null) {
+            throw new IllegalArgumentException("Reader cannot be null");
+        }
         if (bufSize > 0) {
             this.bufSize = bufSize;
         }
@@ -104,7 +103,6 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
         return this;
     }
 
-
     protected PushbackReader reader() {
         return reader;
     }
@@ -112,7 +110,6 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
     protected int bufSize() {
         return bufSize;
     }
-
 
     /**
      * 接下来的一个字符
@@ -145,8 +142,8 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
         return childMatch.match();
     }
 
-
     public int read() throws IOException {
+        ensureReaderInitialized();
         int count = 0;
         while (!match().isPresent()) {
             reader.skip(1);
@@ -156,6 +153,7 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
     }
 
     public int read(CharBuffer charBuffer) throws IOException {
+        ensureReaderInitialized();
         int count = 0;
         int len = charBuffer.remaining();
 
@@ -172,18 +170,22 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
         return count;
     }
 
-    public ReaderStream read(int maxCount, Consumer<CharBuffer> consumer) throws IOException {
+    public ReaderStream<ParentMatch> read(int maxCount, Consumer<CharBuffer> consumer) throws IOException {
         CharBuffer charBuffer = CharBuffer.allocate(maxCount);
         read(charBuffer);
         consumer.accept(charBuffer);
         return this;
     }
 
+    private void ensureReaderInitialized() {
+        if (reader == null) {
+            throw new IllegalStateException("PushbackReader is not initialized");
+        }
+    }
 
     @Override
     public String toString() {
         return (parentMatch != null ? parentMatch.toString() : "") +
                 "/" + this.getClass().getSimpleName() + "(" + bufSize + ")";
     }
-
 }

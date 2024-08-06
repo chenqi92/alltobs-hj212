@@ -4,6 +4,7 @@ import com.alltobs.hj212.core.Configurator;
 import com.alltobs.hj212.core.Configured;
 import com.alltobs.hj212.core.ReaderStream;
 import com.alltobs.hj212.feature.SegmentParserFeature;
+import lombok.Setter;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SegmentParser implements Closeable, Configured<SegmentParser> {
 
     protected PushbackReader reader;
+    @Setter
     private int parserFeature;
     private SegmentToken currentToken;
     private Stack<String> path;
@@ -354,10 +356,6 @@ public class SegmentParser implements Closeable, Configured<SegmentParser> {
 
     public void initToken() {
         currentToken = SegmentToken.START_OBJECT_VALUE;
-    }
-
-    public void setParserFeature(int parserFeature) {
-        this.parserFeature = parserFeature;
     }
 
     @Override
