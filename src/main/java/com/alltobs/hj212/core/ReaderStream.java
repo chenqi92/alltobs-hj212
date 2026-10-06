@@ -146,7 +146,9 @@ public class ReaderStream<ParentMatch extends ReaderMatch> {
         ensureReaderInitialized();
         int count = 0;
         while (!match().isPresent()) {
-            reader.skip(1);
+            if (reader.read() == -1) {
+                break;
+            }
             count++;
         }
         return count;

@@ -139,8 +139,26 @@ public class MultipleCharMatch<ParentStream extends ReaderStream> implements Rea
     @Override
     public Optional<char[]> match() throws IOException {
         char[] chars = new char[count];
-        //noinspection ResultOfMethodCallIgnored
-        reader.read(chars);
+        int readCount = 0;
+        while (readCount < count) {
+            int n = reader.read(chars, readCount, count - readCount);
+            if (n == -1) {
+                break;
+            }
+            if (n == 0) {
+                int character = reader.read();
+                if (character == -1) {
+                    break;
+                }
+                chars[readCount++] = (char) character;
+            } else {
+                readCount += n;
+            }
+        }
+        if (readCount != count) {
+            reader.unread(chars, 0, readCount);
+            return Optional.empty();
+        }
 
         Optional<SupplierWithThrowable<Optional<Object>, IOException>> r = map.entrySet().stream()
                 .filter(kv -> kv.getKey().test(chars))

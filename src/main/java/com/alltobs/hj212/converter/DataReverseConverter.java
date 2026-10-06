@@ -147,7 +147,7 @@ public class DataReverseConverter implements Converter<HjData, T212Map<String, O
             return "";
         }
         for (HjDataFlag dataFlag : flag) {
-            i = dataFlag.getBit() & i;
+            i |= dataFlag.getBit();
         }
         return Integer.toString(i);
     }
@@ -164,7 +164,6 @@ public class DataReverseConverter implements Converter<HjData, T212Map<String, O
                 .convertValue(data, Map.class);
         if (data.getDataFlag() != null &&
                 !data.getDataFlag().isEmpty()) {
-            map.remove(HjData.FLAG);
             String flag = convertDataFlag(data.getDataFlag());
             map.put(HjData.FLAG, flag);
         }

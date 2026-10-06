@@ -133,7 +133,9 @@ public class SingleCharMatch<ParentStream extends ReaderStream> implements Reade
             //必须运行成功才不会回滚
             return Optional.of(character);
         }
-        reader.unread(i);
+        if (i != -1) {
+            reader.unread(i);
+        }
         return Optional.empty();
     }
 

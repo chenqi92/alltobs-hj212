@@ -53,7 +53,7 @@ public class T212Parser implements Configured<T212Parser>, Closeable {
      */
     public char[] readHeader() throws T212FormatException, IOException {
         char[] header = new char[2];
-        count = reader.read(header);
+        count = readFully(header);
         VerifyUtil.verifyLen(count, 2, PacketElement.HEADER);
         if (ParserFeature.HEADER_CONSTANT.enabledIn(parserFeature)) {
             VerifyUtil.verifyChar(header, HEADER, PacketElement.HEADER);
@@ -71,7 +71,7 @@ public class T212Parser implements Configured<T212Parser>, Closeable {
      */
     public char[] readDataLen() throws T212FormatException, IOException {
         char[] len = new char[4];
-        count = reader.read(len);
+        count = readFully(len);
         VerifyUtil.verifyLen(count, len.length, PacketElement.DATA_LEN);
         return len;
     }
@@ -85,7 +85,7 @@ public class T212Parser implements Configured<T212Parser>, Closeable {
      */
     public int readInt32(int radix) throws IOException {
         char[] intChars = new char[4];
-        count = reader.read(intChars);
+        count = readFully(intChars);
         if (count != 4) {
             return -1;
         }
@@ -102,7 +102,7 @@ public class T212Parser implements Configured<T212Parser>, Closeable {
      */
     public char[] readData(int segmentLen) throws T212FormatException, IOException {
         char[] segment = new char[segmentLen];
-        count = reader.read(segment);
+        count = readFully(segment);
         VerifyUtil.verifyLen(count, segmentLen, PacketElement.DATA);
         return segment;
     }
@@ -117,7 +117,7 @@ public class T212Parser implements Configured<T212Parser>, Closeable {
      */
     public char[] readCrc() throws T212FormatException, IOException {
         char[] crc = new char[4];
-        count = reader.read(crc);
+        count = readFully(crc);
         VerifyUtil.verifyLen(count, crc.length, PacketElement.DATA_CRC);
         return crc;
     }
@@ -132,7 +132,7 @@ public class T212Parser implements Configured<T212Parser>, Closeable {
      */
     public char[] readFooter() throws T212FormatException, IOException {
         char[] footer = new char[2];
-        count = reader.read(footer);
+        count = readFully(footer);
         VerifyUtil.verifyLen(count, 2, PacketElement.FOOTER);
         if (ParserFeature.FOOTER_CONSTANT.enabledIn(parserFeature)) {
             VerifyUtil.verifyChar(footer, FOOTER, PacketElement.FOOTER);
@@ -149,9 +149,9 @@ public class T212Parser implements Configured<T212Parser>, Closeable {
      * @see PacketElement#FOOTER
      */
     public char[] readDataAndCrc(int dataLen) throws IOException, T212FormatException {
-        reader.mark(-0);
+        reader.mark(dataLen + 4);
         char[] data = new char[dataLen];
-        count = reader.read(data);
+        count = readFully(data);
         VerifyUtil.verifyLen(count, dataLen, PacketElement.DATA);
 
         int crc = readInt32(16);
@@ -161,6 +161,26 @@ public class T212Parser implements Configured<T212Parser>, Closeable {
         }
         reader.reset();
         return null;
+    }
+
+    private int readFully(char[] buffer) throws IOException {
+        int offset = 0;
+        while (offset < buffer.length) {
+            int n = reader.read(buffer, offset, buffer.length - offset);
+            if (n == -1) {
+                break;
+            }
+            if (n == 0) {
+                int character = reader.read();
+                if (character == -1) {
+                    break;
+                }
+                buffer[offset++] = (char) character;
+            } else {
+                offset += n;
+            }
+        }
+        return offset;
     }
 
 
